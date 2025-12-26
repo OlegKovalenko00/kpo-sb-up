@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus Booking UI</title>
+<style>
+*{box-sizing:border-box;font-family:Arial, sans-serif}
+body{margin:0;background:#0a0a0a;color:#f5f5f5}
+.wrapper{max-width:1200px;margin:0 auto;padding:32px}
+h1{font-size:28px;margin-bottom:12px;color:#ffa500}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-bottom:24px}
+.card{background:#111;border:1px solid #222;border-radius:12px;padding:16px;box-shadow:0 10px 40px rgba(0,0,0,0.35)}
+.card h2{margin:0 0 12px 0;font-size:18px;color:#ffa500}
+label{display:block;font-size:13px;margin-bottom:6px;color:#d6d6d6}
+input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #222;background:#0a0a0a;color:#f5f5f5;margin-bottom:10px}
+button{background:#ffa500;color:#0a0a0a;border:none;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;transition:all .2s}
+button:hover{background:#ffb733;transform:translateY(-1px)}
+button.secondary{background:#ffffff;color:#0a0a0a}
+button.secondary:hover{background:#e6e6e6}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.log{background:#0a0a0a;border:1px solid #222;border-radius:10px;padding:12px;min-height:120px;white-space:pre-wrap}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.pill{background:#222;color:#ffa500;border-radius:20px;padding:6px 10px;font-size:12px}
+.muted{color:#b3b3b3;font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrapper">
+<h1>Campus Room Booking</h1>
+<div class="grid">
+<div class="card">
+<div class="section-title"><h2>Пользователь</h2><span class="pill">POST /api/users</span></div>
+<label>Имя</label>
+<input id="user-name" placeholder="Alice">
+<label>Email</label>
+<input id="user-email" placeholder="alice@example.com">
+<button id="btn-user">Создать</button>
+</div>
+<div class="card">
+<div class="section-title"><h2>Аудитория</h2><span class="pill">POST /api/rooms</span></div>
+<label>Название</label>
+<input id="room-name" placeholder="Room A">
+<label>Вместимость</label>
+<input id="room-capacity" type="number" value="10">
+<label>Тип</label>
+<select id="room-type">
+<option value="SMALL">SMALL</option>
+<option value="MEDIUM">MEDIUM</option>
+<option value="LARGE">LARGE</option>
+<option value="ONLINE">ONLINE</option>
+</select>
+<label>Доступна</label>
+<select id="room-available"><option value="true">Да</option><option value="false">Нет</option></select>
+<button id="btn-room">Создать</button>
+</div>
+<div class="card">
+<div class="section-title"><h2>Бронирование</h2><span class="pill">POST /api/bookings/book</span></div>
+<label>ID аудитории</label>
+<input id="booking-room" type="number" value="1">
+<label>ID пользователя</label>
+<input id="booking-user" type="number" value="1">
+<label>Начало</label>
+<input id="booking-start" placeholder="2026-01-01T10:00:00">
+<label>Конец</label>
+<input id="booking-end" placeholder="2026-01-01T12:00:00">
+<button id="btn-book">Забронировать</button>
+</div>
+<div class="card">
+<div class="section-title"><h2>Управление</h2><span class="pill">GET/POST</span></div>
+<label>ID брони для отмены</label>
+<input id="booking-cancel-id" type="number" value="1">
+<div class="row">
+<button class="secondary" id="btn-cancel">Отменить бронь</button>
+<button class="secondary" id="btn-users">Список пользователей</button>
+<button class="secondary" id="btn-rooms">Список аудиторий</button>
+<button class="secondary" id="btn-bookings">Список броней</button>
+</div>
+<div class="row">
+<button id="btn-report-json">Отчет JSON</button>
+<button id="btn-report-md">Отчет MD</button>
+<button id="btn-export-csv">Комнаты CSV</button>
+<button id="btn-export-xml">Комнаты XML</button>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="section-title"><h2>Результаты</h2><span class="muted">Запросы и ответы</span></div>
+<div class="log" id="log"></div>
+</div>
+</div>
+<script>
+const logEl=document.getElementById("log")
+const base=location.origin
+const writeLog=(title,data)=>{const time=new Date().toISOString();const text=typeof data==="string"?data:JSON.stringify(data,null,2);logEl.textContent=time+" "+title+"\n"+text+"\n\n"+logEl.textContent}
+const send=async(url,opt)=>{const r=await fetch(url,opt);const ct=r.headers.get("content-type")||"";const data=ct.includes("application/json")?await r.json():await r.text();if(!r.ok){throw new Error(typeof data==="string"?data:JSON.stringify(data))}return data}
+const handle=async(title,fn)=>{try{const res=await fn();writeLog(title,res)}catch(e){writeLog(title+" ERROR",e.message||e)}}
+document.getElementById("btn-user").onclick=()=>handle("create user",async()=>{const body={name:document.getElementById("user-name").value,email:document.getElementById("user-email").value};return send(base+"/api/users",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)})})
+document.getElementById("btn-room").onclick=()=>handle("create room",async()=>{const body={name:document.getElementById("room-name").value,capacity:Number(document.getElementById("room-capacity").value),type:document.getElementById("room-type").value,available:document.getElementById("room-available").value==="true"};return send(base+"/api/rooms",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)})})
+document.getElementById("btn-book").onclick=()=>handle("book room",async()=>{const body={roomId:Number(document.getElementById("booking-room").value),userId:Number(document.getElementById("booking-user").value),startTime:document.getElementById("booking-start").value,endTime:document.getElementById("booking-end").value};return send(base+"/api/bookings/book",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)})})
+document.getElementById("btn-cancel").onclick=()=>handle("cancel booking",async()=>{const id=document.getElementById("booking-cancel-id").value;return send(base+"/api/bookings/cancel/"+id,{method:"POST"})})
+document.getElementById("btn-users").onclick=()=>handle("list users",async()=>send(base+"/api/users"))
+document.getElementById("btn-rooms").onclick=()=>handle("list rooms",async()=>send(base+"/api/rooms"))
+document.getElementById("btn-bookings").onclick=()=>handle("list bookings",async()=>send(base+"/api/bookings"))
+document.getElementById("btn-report-json").onclick=()=>handle("report json",async()=>send(base+"/api/bookings/report/json"))
+document.getElementById("btn-report-md").onclick=()=>handle("report markdown",async()=>send(base+"/api/bookings/report/markdown"))
+document.getElementById("btn-export-csv").onclick=()=>handle("rooms csv",async()=>send(base+"/api/rooms/export/csv"))
+document.getElementById("btn-export-xml").onclick=()=>handle("rooms xml",async()=>send(base+"/api/rooms/export/xml"))
+</script>
+</body>
+</html>
