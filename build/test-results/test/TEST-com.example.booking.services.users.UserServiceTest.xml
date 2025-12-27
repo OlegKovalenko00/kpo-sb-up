@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.booking.services.users.UserServiceTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2025-12-27T12:34:45" hostname="DESKTOP-R7T0SME" time="0.059">
+  <properties/>
+  <testcase name="shouldUpdateUser()" classname="com.example.booking.services.users.UserServiceTest" time="0.046"/>
+  <testcase name="shouldThrowWhenEmailTakenByAnotherOnUpdate()" classname="com.example.booking.services.users.UserServiceTest" time="0.002"/>
+  <testcase name="shouldThrowWhenEmailExistsOnCreate()" classname="com.example.booking.services.users.UserServiceTest" time="0.002"/>
+  <testcase name="shouldCreateUser()" classname="com.example.booking.services.users.UserServiceTest" time="0.003"/>
+  <testcase name="shouldThrowWhenUserNotFound()" classname="com.example.booking.services.users.UserServiceTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

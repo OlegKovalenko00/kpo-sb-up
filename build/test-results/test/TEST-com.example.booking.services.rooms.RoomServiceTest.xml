@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.booking.services.rooms.RoomServiceTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-12-27T12:34:45" hostname="DESKTOP-R7T0SME" time="0.068">
+  <properties/>
+  <testcase name="shouldUpdateRoom()" classname="com.example.booking.services.rooms.RoomServiceTest" time="0.06"/>
+  <testcase name="shouldThrowWhenRoomNotFound()" classname="com.example.booking.services.rooms.RoomServiceTest" time="0.003"/>
+  <testcase name="shouldCreateRoom()" classname="com.example.booking.services.rooms.RoomServiceTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
