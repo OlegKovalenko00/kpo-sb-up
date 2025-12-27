@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.booking.services.bookings.BookingServiceTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2025-12-27T12:34:43" hostname="DESKTOP-R7T0SME" time="1.759">
+  <properties/>
+  <testcase name="shouldThrowWhenEndBeforeStart()" classname="com.example.booking.services.bookings.BookingServiceTest" time="1.587"/>
+  <testcase name="shouldCancelBooking()" classname="com.example.booking.services.bookings.BookingServiceTest" time="0.079"/>
+  <testcase name="shouldThrowWhenUserInactive()" classname="com.example.booking.services.bookings.BookingServiceTest" time="0.005"/>
+  <testcase name="shouldThrowWhenCancelingAlreadyCanceled()" classname="com.example.booking.services.bookings.BookingServiceTest" time="0.005"/>
+  <testcase name="shouldThrowWhenRoomUnavailable()" classname="com.example.booking.services.bookings.BookingServiceTest" time="0.004"/>
+  <testcase name="shouldCreateBookingAndPublishEvents()" classname="com.example.booking.services.bookings.BookingServiceTest" time="0.066"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
